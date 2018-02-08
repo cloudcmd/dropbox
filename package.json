@@ -1,0 +1,60 @@
+{
+  "name": "@cloudcmd/dropbox",
+  "version": "1.0.0",
+  "main": "lib/dropbox.js",
+  "description": "dropbox files and folders crud",
+  "author": "",
+  "homepage": "http://github.com/cloudcmd/dropbox",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cloudcmd/dropbox.git"
+  },
+  "scripts": {
+    "test": "tape 'test/*.js'",
+    "report": "nyc report --reporter=text-lcov | coveralls",
+    "coverage": "nyc npm test",
+    "watch:coverage": "npm run watcher -- npm run coverage",
+    "watch:test": "npm run watcher -- npm test",
+    "watcher": "nodemon -w test -w lib --exec",
+    "lint": "eslint lib test",
+    "build": "babel lib -d legacy"
+  },
+  "dependencies": {
+    "currify": "^2.0.6",
+    "dropbox": "^3.0.3",
+    "dropboxify": "^1.0.2",
+    "es6-promisify": "^6.0.0",
+    "fullstore": "^1.1.0",
+    "isomorphic-fetch": "^2.2.1",
+    "through2": "^2.0.3",
+    "zames": "^1.1.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "coveralls": "^3.0.0",
+    "eslint": "^4.16.0",
+    "fast-async": "^6.3.0",
+    "nodemon": "^1.14.11",
+    "nyc": "^11.4.1",
+    "redrun": "^5.10.0",
+    "sinon": "^4.2.2",
+    "sinon-called-with-diff": "^1.0.2",
+    "tape": "^4.6.3"
+  },
+  "keywords": [
+    "dropbox",
+    "directory",
+    "read",
+    "readdir",
+    "readify",
+    "cloudcmd",
+    "file",
+    "folder",
+    "move",
+    "crud",
+    "delete",
+    "remove"
+  ],
+  "license": "MIT"
+}
