@@ -146,6 +146,7 @@ In old `node.js` environments that not supports `es2017`, `dropbox` can be used 
 
 ```js
 var dropbox = require('@cloudcmd/dropbox/legacy');
+```
 
 ## Related
 
