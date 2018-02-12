@@ -17,7 +17,9 @@
     "watch:test": "npm run watcher -- npm test",
     "watcher": "nodemon -w test -w lib --exec",
     "lint": "eslint lib test",
-    "build": "babel lib -d legacy"
+    "build": "babel lib -d legacy",
+    "wisdom": "redrun build legacy",
+    "legacy": "echo \"require('./dropbox')\"> legacy/index.js"
   },
   "dependencies": {
     "currify": "^2.0.6",
