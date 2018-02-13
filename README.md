@@ -124,12 +124,13 @@ const dropbox = require('@cloudcmd/dropbox');
 dropbox.delete(accessToken, '/fileOrDir', console.log);
 ```
 
-### move(accessToken, from, to, fn)
+### copy(accessToken, from, to, fn)
 
 Move file/directory to new location
 
 - **accessToken** - `token`
-- **path** - path to file
+- **from** - path `from`
+- **to** - path `to`
 - **fn** - `function` callback
 
 #### Example
@@ -137,7 +138,24 @@ Move file/directory to new location
 ```js
 const dropbox = require('@cloudcmd/dropbox');
 
-dropbox.move(accessToken, '/fileOrDir', console.log);
+dropbox.copy(accessToken, '/file1', '/file2', console.log);
+```
+
+### move(accessToken, from, to, fn)
+
+Move file/directory to new location
+
+- **accessToken** - `token`
+- **from** - path `from`
+- **to** - path `to`
+- **fn** - `function` callback
+
+#### Example
+
+```js
+const dropbox = require('@cloudcmd/dropbox');
+
+dropbox.move(accessToken, '/file1', '/file2', console.log);
 ```
 
 ## Environments
