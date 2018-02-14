@@ -68,6 +68,130 @@ test('dropbox: read: dropboxify: call: options', (t) => {
     t.end();
 });
 
+test('dropbox: writeFile: no args', (t) => {
+    t.throws(dropbox.writeFile, /accessToken should be a string!/, 'should throw');
+    t.end();
+});
+
+test('dropbox: writeFile: no callback', (t) => {
+    const fn = () => dropbox.writeFile('token');
+    
+    t.throws(fn, /fn should be a function!/, 'should throw');
+    t.end();
+});
+
+test('dropbox: writeFile: no path', (t) => {
+    const fn = () => dropbox.writeFile('token', null, null, noop);
+    
+    t.throws(fn, /path should be a string!/, 'should throw');
+    t.end();
+});
+
+test('dropbox: writeFile: wrong path', (t) => {
+    const error = 'Error in call to API function "files/upload"';
+    const promise = new Promise((resolve, reject) => {
+        return reject({
+            error
+        });
+    });
+    
+    const filesUpload = sinon
+        .stub()
+        .returns(promise);
+    
+    const Dropbox = function() {
+        this.filesUpload = filesUpload;
+    };
+    
+    clean('..');
+    
+    stub('dropbox', {
+        Dropbox
+    });
+    
+    const path = 'abc';
+    const contents = null;
+    const {writeFile} = require('..');
+    
+    writeFile('token', path, contents, (e) => {
+        t.equal(e.message, error, 'should return error');
+        t.end();
+    });
+});
+
+test('dropbox: writeFile: no contents', (t) => {
+    const promise = new Promise((resolve) => {
+        return resolve('hello');
+    });
+    
+    const filesUpload = sinon
+        .stub()
+        .returns(promise);
+    
+    const Dropbox = function() {
+        this.filesUpload = filesUpload;
+    };
+    
+    clean('..');
+    
+    stub('dropbox', {
+        Dropbox
+    });
+    
+    const path = '/abc';
+    const contents = null;
+    const {writeFile} = require('..');
+    
+    const file = {
+        path,
+        contents: '',
+        mode: {
+            '.tag': 'overwrite',
+        }
+    };
+    
+    writeFile('token', path, contents, () => {
+        t.ok(filesUpload.calledWith(file), 'should call filesGetTemporaryLink');
+        t.end();
+    });
+});
+
+test('dropbox: writeFile', (t) => {
+    const promise = new Promise((resolve) => {
+        return resolve('hello');
+    });
+    
+    const filesUpload = sinon
+        .stub()
+        .returns(promise);
+    
+    const Dropbox = function() {
+        this.filesUpload = filesUpload;
+    };
+    
+    clean('..');
+    
+    stub('dropbox', {
+        Dropbox
+    });
+    
+    const path = '/abc';
+    const contents = 'hello world';
+    const {writeFile} = require('..');
+    const file = {
+        path,
+        contents,
+        mode: {
+            '.tag': 'overwrite',
+        }
+    };
+    
+    writeFile('token', path, contents, () => {
+        t.ok(filesUpload.calledWith(file), 'should call filesGetTemporaryLink');
+        t.end();
+    });
+});
+
 test('dropbox: readFile', (t) => {
     const promise = new Promise((resolve) => {
         return resolve('hello');

@@ -86,6 +86,21 @@ readFile(accessToken, '/dropbox.html', (e, readStream) => {
 });
 ```
 
+### writeFile(accessToken, path, contents, fn)
+
+- **accessToken** - `token`
+- **path** - path to file
+- **contents** - contents of a file
+- **fn** - `function` callback
+
+#### Example
+
+```js
+const {writeFile} = require('@cloudcmd/dropbox');
+
+writeFile(accessToken, '/hello.txt', 'hello', console.error);
+```
+
 ### read(accessToken, path[, options], fn)
 
 Read file/directory.
