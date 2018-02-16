@@ -1,10 +1,18 @@
 'use strict';
 
 const test = require('tape');
+const currify = require('currify');
 const diff = require('sinon-called-with-diff');
 const sinon = diff(require('sinon'));
-const {Readable} = require('stream');
 const read = require('../lib/read');
+const {promisify} = require('es6-promisify');
+const squad = require('squad');
+
+const swap = currify((fn, a, b) => fn(b, a));
+const swapPromisify = squad(swap, promisify, require);
+const pullout_ = swapPromisify('pullout');
+
+const stringify = (json) => JSON.stringify(json, null, 4);
 
 test('dropbox: no args', (t) => {
     t.throws(read, /token should be a string!/, 'should throw when no token');
@@ -122,12 +130,21 @@ test('dropbox: read: result', (t) => {
         readFile,
     });
     
-    const read = require('../lib/read');
-    
-    read(token, path, (e, stream) => {
-        t.ok(stream instanceof Readable, 'should return stream');
+    const read = promisify(require('../lib/read'));
+    const check = (result) => {
+        t.equal(result, stringify(list), 'should equal');
         t.end();
-    });
+    };
+    
+    const fail = (e) => {
+        t.fail(e.message);
+        t.end();
+    };
+    
+    read(token, path)
+        .then(pullout_('string'))
+        .then(check)
+        .catch(fail);
 });
 
 function clean(path) {

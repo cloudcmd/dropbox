@@ -101,6 +101,29 @@ const {writeFile} = require('@cloudcmd/dropbox');
 writeFile(token, '/hello.txt', 'hello', console.error);
 ```
 
+### createWriteStream(token, path)
+
+- **token** - `token`
+- **path** - path to file
+
+#### Example
+
+```js
+const {createReadStream}  = require('fs');
+const {createWriteStream} = require('@cloudcmd/dropbox');
+
+const token = 'token';
+const path = '/file';
+
+const dropboxStream = createWriteStream(token, path);
+const localStream = fs.createReadStream(path);
+
+localStream
+    .pipe(dropboxStream)
+    .on('error', console.error)
+    .on('finish', console.log)
+```
+
 ### read(token, path[, options], fn)
 
 Read file/directory.

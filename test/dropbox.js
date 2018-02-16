@@ -2,6 +2,8 @@
 
 const test = require('tape');
 const dropbox = require('..');
+const stringToStream = require('string-to-stream');
+const pullout = require('pullout');
 const diff = require('sinon-called-with-diff');
 const sinon = diff(require('sinon'));
 const noop = sinon.stub();
@@ -66,6 +68,70 @@ test('dropbox: read: dropboxify: call: options', (t) => {
     
     t.ok(dropboxify.calledWith(...args), 'should call dropboxify');
     t.end();
+});
+
+test('dropbox: createWriteStream: no token', (t) => {
+    t.throws(dropbox.createWriteStream, /token should be a string!/, 'should throw when no token');
+    t.end();
+});
+
+test('dropbox: createWriteStream: no path', (t) => {
+    const fn = () => dropbox.createWriteStream('token');
+    
+    t.throws(fn, /path should be a string!/, 'should throw when no path');
+    t.end();
+});
+
+test('dropbox: createWriteStream: createDropboxUploadStream', (t) => {
+    const createDropboxUploadStream = sinon.stub();
+    
+    clean('..');
+    
+    stub('dropbox-stream', {
+        createDropboxUploadStream
+    });
+    
+    const token = 'token';
+    const filepath = '/hello';
+    const chunkSize = 1024000;
+    
+    const {createWriteStream} = require('../lib/dropbox');
+    
+    createWriteStream(token, filepath);
+    const expected = {
+        token,
+        filepath,
+        chunkSize,
+    };
+    
+    t.ok(createDropboxUploadStream.calledWith(expected), 'should call createDropboxUploadStream');
+    t.end();
+});
+
+test('dropbox: createWriteStream: result', (t) => {
+    const str = 'hello';
+    const createDropboxUploadStream = sinon
+        .stub()
+        .returns(stringToStream(str));
+    
+    clean('..');
+    
+    stub('dropbox-stream', {
+        createDropboxUploadStream
+    });
+    
+    const token = 'token';
+    const filepath = '/hello';
+    const chunkSize = 1024000;
+    
+    const {createWriteStream} = require('../lib/dropbox');
+    
+    const stream = createWriteStream(token, filepath);
+    
+    pullout(stream, 'string', (e, data) => {
+        t.equal(data, str, 'should equal');
+        t.end();
+    });
 });
 
 test('dropbox: writeFile: no args', (t) => {
