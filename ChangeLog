@@ -1,3 +1,9 @@
+2018.02.16, v1.2.0
+
+feature:
+- (dropbox) createWriteStream
+
+
 2018.02.16, v1.1.1
 
 feature:
