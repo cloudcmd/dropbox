@@ -6,8 +6,8 @@ const diff = require('sinon-called-with-diff');
 const sinon = diff(require('sinon'));
 const noop = sinon.stub();
 
-test('dropbox: readDir: no accessToken', (t) => {
-    t.throws(dropbox.readDir, /accessToken should be a string!/, 'should throw when no accessToken');
+test('dropbox: readDir: no token', (t) => {
+    t.throws(dropbox.readDir, /token should be a string!/, 'should throw when no token');
     t.end();
 });
 
@@ -69,12 +69,12 @@ test('dropbox: read: dropboxify: call: options', (t) => {
 });
 
 test('dropbox: writeFile: no args', (t) => {
-    t.throws(dropbox.writeFile, /accessToken should be a string!/, 'should throw');
+    t.throws(dropbox.writeFile, /token should be a string!/, 'should throw');
     t.end();
 });
 
 test('dropbox: writeFile: no callback', (t) => {
-    const fn = () => dropbox.writeFile('token');
+    const fn = () => dropbox.writeFile('token', '/hello');
     
     t.throws(fn, /fn should be a function!/, 'should throw');
     t.end();

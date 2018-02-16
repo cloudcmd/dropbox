@@ -22,11 +22,11 @@ npm i @cloudcmd/dropbox --save
 
 ## API
 
-All functions requires [accessToken](https://blogs.dropbox.com/developers/2014/05/generate-an-access-token-for-your-own-account/) as first parameter
+All functions requires [token](https://blogs.dropbox.com/developers/2014/05/generate-an-access-token-for-your-own-account/) as first parameter
 
-### readDir(accessToken, path[, options], fn)
+### readDir(token, path[, options], fn)
 
-- **accessToken** - `string`
+- **token** - `string`
 - **path** - `string`
 - **options** - `object` can contain:
   - `sort` - sort by: name, size, date
@@ -45,7 +45,7 @@ const type = 'raw';
 
 const {readDir} = require('@cloudcmd/dropbox');
 
-readDir(accessToken, path, {type, sort, order}, (e, files) => {
+readDir(token, path, {type, sort, order}, (e, files) => {
     console.log(files);
     // outputs
     {
@@ -67,9 +67,9 @@ readDir(accessToken, path, {type, sort, order}, (e, files) => {
 });
 ```
 
-### readFile(accessToken, path, fn)
+### readFile(token, path, fn)
 
-- **accessToken** - `token`
+- **token** - `token`
 - **path** - path to file
 - **fn** - `function` callback
 
@@ -78,7 +78,7 @@ readDir(accessToken, path, {type, sort, order}, (e, files) => {
 ```js
 const {readFile} = require('@cloudcmd/dropbox');
 
-readFile(accessToken, '/dropbox.html', (e, readStream) => {
+readFile(token, '/dropbox.html', (e, readStream) => {
     if (e)
         return console.error(e);
     
@@ -86,9 +86,9 @@ readFile(accessToken, '/dropbox.html', (e, readStream) => {
 });
 ```
 
-### writeFile(accessToken, path, contents, fn)
+### writeFile(token, path, contents, fn)
 
-- **accessToken** - `token`
+- **token** - `token`
 - **path** - path to file
 - **contents** - contents of a file
 - **fn** - `function` callback
@@ -98,14 +98,14 @@ readFile(accessToken, '/dropbox.html', (e, readStream) => {
 ```js
 const {writeFile} = require('@cloudcmd/dropbox');
 
-writeFile(accessToken, '/hello.txt', 'hello', console.error);
+writeFile(token, '/hello.txt', 'hello', console.error);
 ```
 
-### read(accessToken, path[, options], fn)
+### read(token, path[, options], fn)
 
 Read file/directory.
 
-- **accessToken** - `token`
+- **token** - `token`
 - **options** - same options as `readDir` takes in
 - **path** - path to file
 - **fn** - `function` callback
@@ -115,7 +115,7 @@ Read file/directory.
 ```js
 const {read} = require('@cloudcmd/dropbox');
 
-read(accessToken, '/fileOrDir', (e, readStream) => {
+read(token, '/fileOrDir', (e, readStream) => {
     if (e)
         return console.error(e);
     
@@ -123,11 +123,11 @@ read(accessToken, '/fileOrDir', (e, readStream) => {
 });
 ```
 
-### delete(accessToken, path, fn)
+### delete(token, path, fn)
 
 delete file/directory.
 
-- **accessToken** - `token`
+- **token** - `token`
 - **path** - path to file
 - **fn** - `function` callback
 
@@ -136,14 +136,14 @@ delete file/directory.
 ```js
 const dropbox = require('@cloudcmd/dropbox');
 
-dropbox.delete(accessToken, '/fileOrDir', console.log);
+dropbox.delete(token, '/fileOrDir', console.log);
 ```
 
-### copy(accessToken, from, to, fn)
+### copy(token, from, to, fn)
 
 Move file/directory to new location
 
-- **accessToken** - `token`
+- **token** - `token`
 - **from** - path `from`
 - **to** - path `to`
 - **fn** - `function` callback
@@ -153,14 +153,14 @@ Move file/directory to new location
 ```js
 const dropbox = require('@cloudcmd/dropbox');
 
-dropbox.copy(accessToken, '/file1', '/file2', console.log);
+dropbox.copy(token, '/file1', '/file2', console.log);
 ```
 
-### move(accessToken, from, to, fn)
+### move(token, from, to, fn)
 
 Move file/directory to new location
 
-- **accessToken** - `token`
+- **token** - `token`
 - **from** - path `from`
 - **to** - path `to`
 - **fn** - `function` callback
@@ -170,7 +170,7 @@ Move file/directory to new location
 ```js
 const dropbox = require('@cloudcmd/dropbox');
 
-dropbox.move(accessToken, '/file1', '/file2', console.log);
+dropbox.move(token, '/file1', '/file2', console.log);
 ```
 
 ## Environments
