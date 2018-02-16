@@ -4,6 +4,26 @@ const test = require('tape');
 const diff = require('sinon-called-with-diff');
 const sinon = diff(require('sinon'));
 const {Readable} = require('stream');
+const read = require('../lib/read');
+
+test('dropbox: no args', (t) => {
+    t.throws(read, /token should be a string!/, 'should throw when no token');
+    t.end();
+});
+
+test('dropbox: no path', (t) => {
+    const fn = () => read('token');
+    
+    t.throws(fn, /path should be a string!/, 'should throw when no path');
+    t.end();
+});
+
+test('dropbox: no fn', (t) => {
+    const fn = () => read('token', '/hello');
+    
+    t.throws(fn, /fn should be a function!/, 'should throw when no path');
+    t.end();
+});
 
 test('dropbox: read: error', (t) => {
     const token = 'token';
