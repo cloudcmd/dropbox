@@ -124,6 +124,29 @@ localStream
     .on('finish', console.log)
 ```
 
+### createReadStream(token, path)
+
+- **token** - `token`
+- **path** - path to file
+
+#### Example
+
+```js
+const {createWriteStream} = require('fs');
+const {createReadStream}  = require('@cloudcmd/dropbox');
+
+const token = 'token';
+const path = '/file';
+
+const dropboxStream = fs.createReadStream(path);
+const localStream = createWriteStream(token, path);
+
+dropboxStream
+    .pipe(localStream)
+    .on('error', console.error)
+    .on('finish', console.log)
+```
+
 ### read(token, path[, options], fn)
 
 Read file/directory.

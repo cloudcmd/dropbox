@@ -42,12 +42,12 @@ test('dropbox: read: error', (t) => {
         fn(error);
     };
     
-    const readFile = sinon.stub();
+    const createReadStream = sinon.stub();
     
     clean('../lib/read');
     stub('..', {
         readDir,
-        readFile,
+        createReadStream,
     });
     
     const read = require('../lib/read');
@@ -68,12 +68,12 @@ test('dropbox: read: options: error', (t) => {
         fn(error);
     };
     
-    const readFile = sinon.stub();
+    const createReadStream = sinon.stub();
     
     clean('../lib/read');
     stub('..', {
         readDir,
-        readFile,
+        createReadStream,
     });
     
     const read = require('../lib/read');
@@ -93,20 +93,21 @@ test('dropbox: read: not dir', (t) => {
         fn(Error('path/not_folder/'));
     };
     
-    const readFile = (token, path, fn) => {
-        fn(error);
-    };
+    const result = {};
+    const createReadStream = sinon
+        .stub()
+        .returns(result);
     
     clean('../lib/read');
     stub('..', {
         readDir,
-        readFile,
+        createReadStream,
     });
     
     const read = require('../lib/read');
     
-    read(token, path, (e) => {
-        t.equal(e, error, 'should return file error');
+    read(token, path, (e, data) => {
+        t.equal(data, result, 'should equal');
         t.end();
     });
 });
@@ -122,12 +123,12 @@ test('dropbox: read: result', (t) => {
         fn(null, list);
     };
     
-    const readFile = sinon.stub();
+    const createReadStream = sinon.stub();
     
     clean('../lib/read');
     stub('..', {
         readDir,
-        readFile,
+        createReadStream,
     });
     
     const read = promisify(require('../lib/read'));

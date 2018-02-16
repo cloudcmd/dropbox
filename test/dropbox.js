@@ -134,6 +134,67 @@ test('dropbox: createWriteStream: result', (t) => {
     });
 });
 
+test('dropbox: createReadStream: no token', (t) => {
+    t.throws(dropbox.createWriteStream, /token should be a string!/, 'should throw when no token');
+    t.end();
+});
+
+test('dropbox: createReadStream: no path', (t) => {
+    const fn = () => dropbox.createWriteStream('token');
+    
+    t.throws(fn, /path should be a string!/, 'should throw when no path');
+    t.end();
+});
+
+test('dropbox: createReadStream: createDropboxDownloadStream', (t) => {
+    const createDropboxDownloadStream = sinon.stub();
+    
+    clean('..');
+    
+    stub('dropbox-stream', {
+        createDropboxDownloadStream
+    });
+    
+    const token = 'token';
+    const filepath = '/hello';
+    
+    const {createReadStream} = require('../lib/dropbox');
+    
+    createReadStream(token, filepath);
+    
+    const expected = {
+        token,
+        filepath,
+    };
+    
+    t.ok(createDropboxDownloadStream.calledWith(expected), 'should call createDropboxUploadStream');
+    t.end();
+});
+
+test('dropbox: createReadStream: result', (t) => {
+    const str = 'hello';
+    const createDropboxDownloadStream = sinon
+        .stub()
+        .returns(stringToStream(str));
+    
+    clean('..');
+    
+    stub('dropbox-stream', {
+        createDropboxDownloadStream
+    });
+    
+    const token = 'token';
+    const filepath = '/hello';
+    
+    const {createReadStream} = require('../lib/dropbox');
+    const stream = createReadStream(token, filepath);
+    
+    pullout(stream, 'string', (e, data) => {
+        t.equal(data, str, 'should equal');
+        t.end();
+    });
+});
+
 test('dropbox: writeFile: no args', (t) => {
     t.throws(dropbox.writeFile, /token should be a string!/, 'should throw');
     t.end();
