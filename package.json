@@ -38,9 +38,11 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "clear-module": "^2.1.0",
     "coveralls": "^3.0.0",
     "eslint": "^4.16.0",
     "fast-async": "^6.3.0",
+    "mock-require": "^3.0.1",
     "nodemon": "^1.14.11",
     "nyc": "^11.4.1",
     "pullout": "^1.0.2",

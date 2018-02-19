@@ -7,6 +7,8 @@ const sinon = diff(require('sinon'));
 const read = require('../lib/read');
 const {promisify} = require('es6-promisify');
 const squad = require('squad');
+const stub = require('mock-require');
+const clean = require('clear-module');
 
 const swap = currify((fn, a, b) => fn(b, a));
 const swapPromisify = squad(swap, promisify, require);
@@ -147,12 +149,4 @@ test('dropbox: read: result', (t) => {
         .then(check)
         .catch(fail);
 });
-
-function clean(path) {
-    delete require.cache[require.resolve(path)];
-}
-
-function stub(name, fn) {
-    require.cache[require.resolve(name)].exports = fn;
-}
 

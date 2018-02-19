@@ -7,6 +7,8 @@ const pullout = require('pullout');
 const diff = require('sinon-called-with-diff');
 const sinon = diff(require('sinon'));
 const noop = sinon.stub();
+const clean = require('clear-module');
+const stub = require('mock-require');
 
 test('dropbox: readDir: no token', (t) => {
     t.throws(dropbox.readDir, /token should be a string!/, 'should throw when no token');
@@ -521,12 +523,4 @@ test('dropbox: delete: error', (t) => {
         t.end();
     });
 });
-
-function clean(path) {
-    delete require.cache[require.resolve(path)];
-}
-
-function stub(name, fn) {
-    require.cache[require.resolve(name)].exports = fn;
-}
 
