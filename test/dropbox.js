@@ -124,8 +124,6 @@ test('dropbox: createWriteStream: result', (t) => {
     
     const token = 'token';
     const filepath = '/hello';
-    const chunkSize = 1024000;
-    
     const {createWriteStream} = require('../lib/dropbox');
     
     const stream = createWriteStream(token, filepath);

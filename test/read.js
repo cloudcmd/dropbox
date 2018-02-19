@@ -89,7 +89,6 @@ test('dropbox: read: options: error', (t) => {
 test('dropbox: read: not dir', (t) => {
     const token = 'token';
     const path = '/';
-    const error = Error('file error');
     
     const readDir = (token, path, options, fn) => {
         fn(Error('path/not_folder/'));
