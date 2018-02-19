@@ -147,9 +147,9 @@ dropboxStream
     .on('finish', console.log)
 ```
 
-### delete(token, path, fn)
+### remove(token, path, fn)
 
-delete file/directory.
+remove file/directory.
 
 - **token** - `token`
 - **path** - path to file
@@ -158,9 +158,9 @@ delete file/directory.
 #### Example
 
 ```js
-const dropbox = require('@cloudcmd/dropbox');
+const {remove} = require('@cloudcmd/dropbox');
 
-dropbox.delete(token, '/fileOrDir', console.log);
+remove(token, '/fileOrDir', console.log);
 ```
 
 ### copy(token, from, to, fn)

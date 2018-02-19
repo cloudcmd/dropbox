@@ -488,7 +488,7 @@ test('dropbox: move: error', (t) => {
     });
 });
 
-test('dropbox: delete: error', (t) => {
+test('dropbox: remove: error', (t) => {
     const error_summary = 'path_loockup/not_found/..';
     const error = Error(error_summary);
     const promise = new Promise((resolve, reject) => {
@@ -516,7 +516,7 @@ test('dropbox: delete: error', (t) => {
     const dropbox = require('..');
     const path = 'hello';
     
-    dropbox.delete('token', path, (e) => {
+    dropbox.remove('token', path, (e) => {
         t.deepEqual(e, error, 'should equal');
         t.end();
     });
