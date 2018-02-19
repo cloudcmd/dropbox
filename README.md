@@ -175,9 +175,9 @@ Move file/directory to new location
 #### Example
 
 ```js
-const dropbox = require('@cloudcmd/dropbox');
+const {copy} = require('@cloudcmd/dropbox');
 
-dropbox.copy(token, '/file1', '/file2', console.log);
+copy(token, '/file1', '/file2', console.log);
 ```
 
 ### move(token, from, to, fn)
@@ -192,9 +192,9 @@ Move file/directory to new location
 #### Example
 
 ```js
-const dropbox = require('@cloudcmd/dropbox');
+const {move} = require('@cloudcmd/dropbox');
 
-dropbox.move(token, '/file1', '/file2', console.log);
+move(token, '/file1', '/file2', console.log);
 ```
 
 ## Related
