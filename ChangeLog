@@ -1,3 +1,15 @@
+2018.02.19, v2.0.0
+
+fix:
+- (package) legacy
+
+feature:
+- (dropbox) delete -> remove
+- (dropbox) drop support of node < 4
+- (dropbox) move out read to npm readbox
+- (package) clean, stub -> clean-module, mock-require
+
+
 2018.02.16, v1.3.0
 
 feature:
