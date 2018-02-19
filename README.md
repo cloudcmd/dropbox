@@ -147,28 +147,6 @@ dropboxStream
     .on('finish', console.log)
 ```
 
-### read(token, path[, options], fn)
-
-Read file/directory.
-
-- **token** - `token`
-- **options** - same options as `readDir` takes in
-- **path** - path to file
-- **fn** - `function` callback
-
-#### Example
-
-```js
-const {read} = require('@cloudcmd/dropbox');
-
-read(token, '/fileOrDir', (e, readStream) => {
-    if (e)
-        return console.error(e);
-    
-    readStream.pipe(process.stdout);
-});
-```
-
 ### delete(token, path, fn)
 
 delete file/directory.
