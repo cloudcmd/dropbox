@@ -197,14 +197,6 @@ const dropbox = require('@cloudcmd/dropbox');
 dropbox.move(token, '/file1', '/file2', console.log);
 ```
 
-## Environments
-
-In old `node.js` environments that not supports `es2017`, `dropbox` can be used with:
-
-```js
-var dropbox = require('@cloudcmd/dropbox/legacy');
-```
-
 ## Related
 
 - [readify](https://github.com/coderaiser/readify "readify") - read directory content with file attributes: size, date, owner, mode
