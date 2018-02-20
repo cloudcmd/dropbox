@@ -409,6 +409,37 @@ test('dropbox: copy', (t) => {
     });
 });
 
+test('dropbox: mkdir', (t) => {
+    const promise = new Promise((resolve) => {
+        return resolve('hello');
+    });
+    
+    const filesCreateFolderV2 = sinon
+        .stub()
+        .returns(promise);
+    
+    const Dropbox = function() {
+        this.filesCreateFolderV2 = filesCreateFolderV2;
+    };
+    
+    clean('..');
+    
+    stub('dropbox', {
+        Dropbox
+    });
+    
+    const path = '/hello';
+    const {mkdir} = require('..');
+    const args = {
+        path
+    };
+    
+    mkdir('token', path, () => {
+        t.ok(filesCreateFolderV2.calledWith(args), 'should call filesCreateFolderV2');
+        t.end();
+    });
+});
+
 test('dropbox: copy: no from: error', (t) => {
     const {copy} = require('..');
     const fn = () => copy('token', null, null, noop);

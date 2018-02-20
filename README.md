@@ -163,6 +163,22 @@ const {remove} = require('@cloudcmd/dropbox');
 remove(token, '/fileOrDir', console.log);
 ```
 
+### mkdir(token, from, to, fn)
+
+create directory.
+
+- **token** - `token`
+- **path** - `string`
+- **fn** - `function` callback
+
+#### Example
+
+```js
+const {mkdir} = require('@cloudcmd/dropbox');
+
+mkdir(token, '/dirname', console.log);
+```
+
 ### copy(token, from, to, fn)
 
 Move file/directory to new location
