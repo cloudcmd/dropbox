@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "currify": "^2.0.6",
-    "dropbox": "^3.0.3",
+    "dropbox": "^4.0.0",
     "dropbox-stream": "^2.0.0",
     "dropboxify": "^1.0.2",
     "es6-promisify": "^6.0.0",
