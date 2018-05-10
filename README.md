@@ -2,11 +2,11 @@
 
 [NPMIMGURL]:                https://img.shields.io/npm/v/@cloudcmd/dropbox.svg?style=flat
 [BuildStatusIMGURL]:        https://img.shields.io/travis/cloudcmd/dropbox/master.svg?style=flat
-[DependencyStatusIMGURL]:   https://img.shields.io/gemnasium/cloudcmd/dropbox.svg?style=flat
+[DependencyStatusIMGURL]:   https://img.shields.io/david/cloudcmd/dropbox.svg?style=flat
 [LicenseIMGURL]:            https://img.shields.io/badge/license-MIT-317BF9.svg?style=flat
 [NPMURL]:                   https://npmjs.org/package/@cloudcmd/dropbox "npm"
 [BuildStatusURL]:           https://travis-ci.org/cloudcmd/dropbox  "Build Status"
-[DependencyStatusURL]:      https://gemnasium.com/cloudcmd/dropbox "Dependency Status"
+[DependencyStatusURL]:      https://david-dm.org/cloudcmd/dropbox "Dependency Status"
 [LicenseURL]:               https://tldrlegal.com/license/mit-license "MIT License"
 
 [CoverageURL]:              https://coveralls.io/github/cloudcmd/dropbox?branch=master
