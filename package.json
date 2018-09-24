@@ -35,7 +35,7 @@
     "clear-module": "^3.0.0",
     "coveralls": "^3.0.0",
     "eslint": "^5.6.0",
-    "eslint-plugin-node": "^6.0.0",
+    "eslint-plugin-node": "^7.0.1",
     "mock-require": "^3.0.1",
     "nodemon": "^1.14.11",
     "nyc": "^13.0.1",
