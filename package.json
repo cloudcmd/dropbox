@@ -38,7 +38,7 @@
     "eslint-plugin-node": "^6.0.0",
     "mock-require": "^3.0.1",
     "nodemon": "^1.14.11",
-    "nyc": "^11.4.1",
+    "nyc": "^13.0.1",
     "pullout": "^1.0.2",
     "redrun": "^6.0.0",
     "sinon": "^6.3.4",
