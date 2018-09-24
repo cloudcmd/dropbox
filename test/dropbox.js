@@ -44,6 +44,7 @@ test('dropbox: read: dropboxify: call', (t) => {
         'token',
         '/',
         {},
+        () => {},
     ];
     
     t.ok(dropboxify.calledWith(...args), 'should call dropboxify');
@@ -66,6 +67,7 @@ test('dropbox: read: dropboxify: call: options', (t) => {
         '/', {
             raw: true
         },
+        () => {},
     ];
     
     t.ok(dropboxify.calledWith(...args), 'should call dropboxify');
