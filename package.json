@@ -32,7 +32,7 @@
     "try-to-catch": "^1.0.0"
   },
   "devDependencies": {
-    "clear-module": "^2.1.0",
+    "clear-module": "^3.0.0",
     "coveralls": "^3.0.0",
     "eslint": "^4.16.0",
     "eslint-plugin-node": "^6.0.0",
