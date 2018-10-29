@@ -25,7 +25,6 @@
     "dropbox": "^4.0.0",
     "dropbox-stream": "^2.0.0",
     "dropboxify": "^2.0.0",
-    "es6-promisify": "^6.0.0",
     "isomorphic-fetch": "^2.2.1",
     "squad": "^3.0.0",
     "string-to-stream": "^1.1.0",
@@ -41,7 +40,7 @@
     "nyc": "^13.0.1",
     "pullout": "^2.0.0",
     "redrun": "^7.0.2",
-    "sinon": "^6.3.4",
+    "sinon": "^7.1.0",
     "sinon-called-with-diff": "^2.0.0",
     "tape": "^4.6.3"
   },
