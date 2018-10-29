@@ -21,7 +21,7 @@
     "lint:eslint:test": "eslint -c .eslintrc.test test --no-eslintrc"
   },
   "dependencies": {
-    "currify": "^2.0.6",
+    "currify": "^3.0.0",
     "dropbox": "^4.0.0",
     "dropbox-stream": "^2.0.0",
     "dropboxify": "^1.0.2",
