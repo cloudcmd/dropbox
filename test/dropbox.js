@@ -7,8 +7,8 @@ const pullout = require('pullout');
 const diff = require('sinon-called-with-diff');
 const sinon = diff(require('sinon'));
 const noop = sinon.stub();
-const clean = require('clear-module');
-const stub = require('mock-require');
+const mockRequire = require('mock-require');
+const {reRequire} = mockRequire;
 
 test('dropbox: readDir: no token', (t) => {
     t.throws(dropbox.readDir, /token should be a string!/, 'should throw when no token');
@@ -31,12 +31,12 @@ test('dropbox: readDir: no fn', (t) => {
 
 test('dropbox: read: dropboxify: call', (t) => {
     const path = '/';
-    const dropboxify = sinon.stub();
+    const dropboxify = sinon.stub()
+        .returns(Promise.resolve());
     
-    clean('..');
-    stub('dropboxify', dropboxify);
+    mockRequire('dropboxify', dropboxify);
     
-    const dropbox = require('..');
+    const dropbox = reRequire('..');
     
     dropbox.readDir('token', path, sinon.stub());
     
@@ -53,12 +53,10 @@ test('dropbox: read: dropboxify: call', (t) => {
 
 test('dropbox: read: dropboxify: call: options', (t) => {
     const path = '/';
-    const dropboxify = sinon.stub();
+    const dropboxify = sinon.stub().returns(Promise.resolve());
     
-    clean('..');
-    stub('dropboxify', dropboxify);
-    
-    const dropbox = require('..');
+    mockRequire('dropboxify', dropboxify);
+    const dropbox = reRequire('..');
     
     dropbox.readDir('token', path, {raw: true}, sinon.stub());
     
@@ -89,9 +87,7 @@ test('dropbox: createWriteStream: no path', (t) => {
 test('dropbox: createWriteStream: createDropboxUploadStream', (t) => {
     const createDropboxUploadStream = sinon.stub();
     
-    clean('..');
-    
-    stub('dropbox-stream', {
+    mockRequire('dropbox-stream', {
         createDropboxUploadStream
     });
     
@@ -99,7 +95,7 @@ test('dropbox: createWriteStream: createDropboxUploadStream', (t) => {
     const filepath = '/hello';
     const chunkSize = 1024000;
     
-    const {createWriteStream} = require('../lib/dropbox');
+    const {createWriteStream} = reRequire('..');
     
     createWriteStream(token, filepath);
     const expected = {
@@ -118,15 +114,13 @@ test('dropbox: createWriteStream: result', (t) => {
         .stub()
         .returns(stringToStream(str));
     
-    clean('..');
-    
-    stub('dropbox-stream', {
+    mockRequire('dropbox-stream', {
         createDropboxUploadStream
     });
     
     const token = 'token';
     const filepath = '/hello';
-    const {createWriteStream} = require('../lib/dropbox');
+    const {createWriteStream} = reRequire('../lib/dropbox');
     
     const stream = createWriteStream(token, filepath);
     
@@ -151,16 +145,14 @@ test('dropbox: createReadStream: no path', (t) => {
 test('dropbox: createReadStream: createDropboxDownloadStream', (t) => {
     const createDropboxDownloadStream = sinon.stub();
     
-    clean('..');
-    
-    stub('dropbox-stream', {
+    mockRequire('dropbox-stream', {
         createDropboxDownloadStream
     });
     
     const token = 'token';
     const filepath = '/hello';
     
-    const {createReadStream} = require('../lib/dropbox');
+    const {createReadStream} = reRequire('../lib/dropbox');
     
     createReadStream(token, filepath);
     
@@ -179,16 +171,14 @@ test('dropbox: createReadStream: result', (t) => {
         .stub()
         .returns(stringToStream(str));
     
-    clean('..');
-    
-    stub('dropbox-stream', {
+    mockRequire('dropbox-stream', {
         createDropboxDownloadStream
     });
     
     const token = 'token';
     const filepath = '/hello';
     
-    const {createReadStream} = require('../lib/dropbox');
+    const {createReadStream} = reRequire('../lib/dropbox');
     const stream = createReadStream(token, filepath);
     
     pullout(stream, 'string', (e, data) => {
@@ -218,29 +208,24 @@ test('dropbox: writeFile: no path', (t) => {
 
 test('dropbox: writeFile: wrong path', (t) => {
     const error = 'Error in call to API function "files/upload"';
-    const promise = new Promise((resolve, reject) => {
-        return reject({
-            error
-        });
-    });
     
     const filesUpload = sinon
         .stub()
-        .returns(promise);
+        .returns(Promise.reject({
+            error
+        }));
     
     const Dropbox = function() {
         this.filesUpload = filesUpload;
     };
     
-    clean('..');
-    
-    stub('dropbox', {
+    mockRequire('dropbox', {
         Dropbox
     });
     
     const path = 'abc';
     const contents = null;
-    const {writeFile} = require('..');
+    const {writeFile} = reRequire('..');
     
     writeFile('token', path, contents, (e) => {
         t.equal(e.message, error, 'should return error');
@@ -261,15 +246,13 @@ test('dropbox: writeFile: no contents', (t) => {
         this.filesUpload = filesUpload;
     };
     
-    clean('..');
-    
-    stub('dropbox', {
+    mockRequire('dropbox', {
         Dropbox
     });
     
     const path = '/abc';
     const contents = null;
-    const {writeFile} = require('..');
+    const {writeFile} = reRequire('..');
     
     const file = {
         path,
@@ -298,15 +281,13 @@ test('dropbox: writeFile', (t) => {
         this.filesUpload = filesUpload;
     };
     
-    clean('..');
-    
-    stub('dropbox', {
+    mockRequire('dropbox', {
         Dropbox
     });
     
     const path = '/abc';
     const contents = 'hello world';
-    const {writeFile} = require('..');
+    const {writeFile} = reRequire('..');
     const file = {
         path,
         contents,
@@ -334,14 +315,12 @@ test('dropbox: readFile', (t) => {
         this.filesGetTemporaryLink = filesGetTemporaryLink;
     };
     
-    clean('..');
-    
-    stub('dropbox', {
+    mockRequire('dropbox', {
         Dropbox
     });
     
     const path = '/abc';
-    const {readFile} = require('..');
+    const {readFile} = reRequire('..');
     
     readFile('token', path, () => {
         t.ok(filesGetTemporaryLink.calledWith({path}), 'should call filesGetTemporaryLink');
@@ -363,14 +342,12 @@ test('dropbox: readFile: error', (t) => {
         this.filesGetTemporaryLink = filesGetTemporaryLink;
     };
     
-    clean('..');
-    
-    stub('dropbox', {
+    mockRequire('dropbox', {
         Dropbox
     });
     
     const path = '/abc';
-    const {readFile} = require('..');
+    const {readFile} = reRequire('..');
     
     readFile('token', path, (e) => {
         t.equal(e, error, 'should equal');
@@ -393,13 +370,11 @@ test('dropbox: copy', (t) => {
         this.filesCopyV2 = filesCopyV2;
     };
     
-    clean('..');
-    
-    stub('dropbox', {
+    mockRequire('dropbox', {
         Dropbox
     });
     
-    const {copy} = require('..');
+    const {copy} = reRequire('..');
     const args = {
         from_path: from,
         to_path: to,
@@ -424,14 +399,12 @@ test('dropbox: mkdir', (t) => {
         this.filesCreateFolderV2 = filesCreateFolderV2;
     };
     
-    clean('..');
-    
-    stub('dropbox', {
+    mockRequire('dropbox', {
         Dropbox
     });
     
     const path = '/hello';
-    const {mkdir} = require('..');
+    const {mkdir} = reRequire('..');
     const args = {
         path
     };
@@ -473,13 +446,11 @@ test('dropbox: move', (t) => {
         this.filesMoveV2 = filesMoveV2;
     };
     
-    clean('..');
-    
-    stub('dropbox', {
+    mockRequire('dropbox', {
         Dropbox
     });
     
-    const {move} = require('..');
+    const {move} = reRequire('..');
     const args = {
         from_path: from,
         to_path: to,
@@ -507,13 +478,11 @@ test('dropbox: move: error', (t) => {
         this.filesMoveV2 = filesMoveV2;
     };
     
-    clean('..');
-    
-    stub('dropbox', {
+    mockRequire('dropbox', {
         Dropbox
     });
     
-    const {move} = require('..');
+    const {move} = reRequire('..');
     
     move('token', from, to, (e) => {
         t.equal(e, error, 'should equal');
@@ -540,13 +509,11 @@ test('dropbox: remove: error', (t) => {
         this.filesDeleteV2 = filesDeleteV2;
     };
     
-    clean('..');
-    
-    stub('dropbox', {
+    mockRequire('dropbox', {
         Dropbox
     });
     
-    const dropbox = require('..');
+    const dropbox = reRequire('..');
     const path = 'hello';
     
     dropbox.remove('token', path, (e) => {
