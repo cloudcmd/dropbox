@@ -21,11 +21,10 @@
     "lint:eslint:test": "eslint -c .eslintrc.test test --no-eslintrc"
   },
   "dependencies": {
-    "cross-fetch": "^2.2.3",
-    "currify": "^3.0.0",
     "dropbox": "^4.0.0",
     "dropbox-stream": "^2.0.0",
     "dropboxify": "^2.0.0",
+    "node-fetch": "^2.2.0",
     "squad": "^3.0.0",
     "string-to-stream": "^1.1.0",
     "try-to-catch": "^1.0.0"
