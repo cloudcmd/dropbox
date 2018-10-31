@@ -1,3 +1,9 @@
+2018.10.31, v4.0.0
+
+feature:
+- (dropbox) callback -> promise
+
+
 2018.10.29, v3.0.1
 
 feature:
