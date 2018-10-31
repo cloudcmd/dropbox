@@ -412,8 +412,12 @@ test('dropbox: mkdir', async (t) => {
 });
 
 test('dropbox: mkdir: error: conflict folder', async (t) => {
-    const promise = new Promise((resolve) => {
-        return resolve('hello');
+    const promise = new Promise((resolve, reject) => {
+        return reject({
+            error: {
+                error_summary: 'path/conflict/folder/...',
+            }
+        });
     });
     
     const filesCreateFolderV2 = sinon
