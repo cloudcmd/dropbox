@@ -163,7 +163,7 @@ const {remove} = require('@cloudcmd/dropbox');
 remove(token, '/fileOrDir', console.log);
 ```
 
-### mkdir(token, from, to, fn)
+### mkdir(token, path, fn)
 
 create directory.
 
