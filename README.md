@@ -181,7 +181,7 @@ mkdir(token, '/dirname', console.log);
 
 ### copy(token, from, to, fn)
 
-Move file/directory to new location
+Copy file/directory to new location
 
 - **token** - `token`
 - **from** - path `from`
