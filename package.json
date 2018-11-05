@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "dropbox": "^4.0.0",
-    "dropbox-stream": "^2.0.0",
+    "dropbox-stream": "^2.1.0",
     "dropboxify": "^2.0.0",
     "node-fetch": "^2.2.0",
     "squad": "^3.0.0",
