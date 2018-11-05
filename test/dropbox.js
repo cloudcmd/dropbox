@@ -94,6 +94,8 @@ test('dropbox: createWriteStream: createDropboxUploadStream', (t) => {
     const token = 'token';
     const filepath = '/hello';
     const chunkSize = 1024000;
+    const autorename = false;
+    const mode = 'overwrite';
     
     const {createWriteStream} = reRequire('..');
     
@@ -102,6 +104,8 @@ test('dropbox: createWriteStream: createDropboxUploadStream', (t) => {
         token,
         filepath,
         chunkSize,
+        mode,
+        autorename,
     };
     
     t.ok(createDropboxUploadStream.calledWith(expected), 'should call createDropboxUploadStream');
