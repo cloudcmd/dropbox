@@ -1,3 +1,10 @@
+2018.11.13, v4.0.3
+
+feature:
+- (package) sinon-called-with-diff v3.0.0
+- (package) dropbox-stream v3.0.0
+
+
 2018.11.05, v4.0.2
 
 feature:
