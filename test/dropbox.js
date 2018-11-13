@@ -1,9 +1,11 @@
 'use strict';
 
+const {promisify} = require('util');
+
 const test = require('tape');
 const dropbox = require('..');
 const stringToStream = require('string-to-stream');
-const pullout = require('pullout');
+const pullout = promisify(require('pullout'));
 const diff = require('sinon-called-with-diff');
 const sinon = diff(require('sinon'));
 const tryToCatch = require('try-to-catch');
@@ -92,17 +94,17 @@ test('dropbox: createWriteStream: createDropboxUploadStream', (t) => {
     });
     
     const token = 'token';
-    const filepath = '/hello';
+    const path = '/hello';
     const chunkSize = 1024000;
     const autorename = false;
     const mode = 'overwrite';
     
     const {createWriteStream} = reRequire('..');
     
-    createWriteStream(token, filepath);
+    createWriteStream(token, path);
     const expected = {
         token,
-        filepath,
+        path,
         chunkSize,
         mode,
         autorename,
@@ -112,7 +114,7 @@ test('dropbox: createWriteStream: createDropboxUploadStream', (t) => {
     t.end();
 });
 
-test('dropbox: createWriteStream: result', (t) => {
+test('dropbox: createWriteStream: result', async (t) => {
     const str = 'hello';
     const createDropboxUploadStream = sinon
         .stub()
@@ -128,10 +130,10 @@ test('dropbox: createWriteStream: result', (t) => {
     
     const stream = createWriteStream(token, filepath);
     
-    pullout(stream, 'string', (e, data) => {
-        t.equal(data, str, 'should equal');
-        t.end();
-    });
+    const data = await pullout(stream, 'string')
+    
+    t.equal(data, str, 'should equal');
+    t.end();
 });
 
 test('dropbox: createReadStream: no token', (t) => {
@@ -154,22 +156,22 @@ test('dropbox: createReadStream: createDropboxDownloadStream', (t) => {
     });
     
     const token = 'token';
-    const filepath = '/hello';
+    const path = '/hello';
     
     const {createReadStream} = reRequire('../lib/dropbox');
     
-    createReadStream(token, filepath);
+    createReadStream(token, path);
     
     const expected = {
         token,
-        filepath,
+        path,
     };
     
     t.ok(createDropboxDownloadStream.calledWith(expected), 'should call createDropboxUploadStream');
     t.end();
 });
 
-test('dropbox: createReadStream: result', (t) => {
+test('dropbox: createReadStream: result', async (t) => {
     const str = 'hello';
     const createDropboxDownloadStream = sinon
         .stub()
@@ -180,15 +182,14 @@ test('dropbox: createReadStream: result', (t) => {
     });
     
     const token = 'token';
-    const filepath = '/hello';
+    const path = '/hello';
     
     const {createReadStream} = reRequire('../lib/dropbox');
-    const stream = createReadStream(token, filepath);
+    const stream = createReadStream(token, path);
+    const data = await pullout(stream, 'string');
     
-    pullout(stream, 'string', (e, data) => {
-        t.equal(data, str, 'should equal');
-        t.end();
-    });
+    t.equal(data, str, 'should equal');
+    t.end();
 });
 
 test('dropbox: writeFile: no args', async (t) => {
