@@ -30,6 +30,7 @@
     "try-to-catch": "^1.0.0"
   },
   "devDependencies": {
+    "@cloudcmd/stub": "^2.0.0",
     "coveralls": "^3.0.0",
     "eslint": "^5.6.0",
     "eslint-plugin-node": "^8.0.0",
@@ -38,8 +39,6 @@
     "nyc": "^13.0.1",
     "pullout": "^2.0.0",
     "redrun": "^7.0.2",
-    "sinon": "^7.1.0",
-    "sinon-called-with-diff": "^3.0.0",
     "tape": "^4.6.3"
   },
   "keywords": [

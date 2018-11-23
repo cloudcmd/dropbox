@@ -6,8 +6,7 @@ const test = require('tape');
 const dropbox = require('..');
 const stringToStream = require('string-to-stream');
 const pullout = promisify(require('pullout'));
-const diff = require('sinon-called-with-diff');
-const sinon = diff(require('sinon'));
+const stub = require('@cloudcmd/stub');
 const tryToCatch = require('try-to-catch');
 const mockRequire = require('mock-require');
 
@@ -18,6 +17,8 @@ const {
     readDir,
     copy,
 } = dropbox;
+
+const resolve = async () => {};
 
 test('dropbox: readDir: no token', async (t) => {
     const [e] = await tryToCatch(readDir);
@@ -35,8 +36,7 @@ test('dropbox: readDir: no path', async (t) => {
 
 test('dropbox: readDir: dropboxify: call', async (t) => {
     const path = '/';
-    const dropboxify = sinon.stub()
-        .returns(Promise.resolve());
+    const dropboxify = stub(resolve);
     
     mockRequire('dropboxify', dropboxify);
     
@@ -56,12 +56,12 @@ test('dropbox: readDir: dropboxify: call', async (t) => {
 
 test('dropbox: read: dropboxify: call: options', async (t) => {
     const path = '/';
-    const dropboxify = sinon.stub().returns(Promise.resolve());
+    const dropboxify = stub(resolve);
     
     mockRequire('dropboxify', dropboxify);
     
     const {readDir} = reRequire('..');
-    await readDir('token', path, {raw: true}, sinon.stub());
+    await readDir('token', path, {raw: true}, stub());
     
     const args = [
         'token',
@@ -87,7 +87,7 @@ test('dropbox: createWriteStream: no path', (t) => {
 });
 
 test('dropbox: createWriteStream: createDropboxUploadStream', (t) => {
-    const createDropboxUploadStream = sinon.stub();
+    const createDropboxUploadStream = stub();
     
     mockRequire('dropbox-stream', {
         createDropboxUploadStream
@@ -116,8 +116,7 @@ test('dropbox: createWriteStream: createDropboxUploadStream', (t) => {
 
 test('dropbox: createWriteStream: result', async (t) => {
     const str = 'hello';
-    const createDropboxUploadStream = sinon
-        .stub()
+    const createDropboxUploadStream = stub()
         .returns(stringToStream(str));
     
     mockRequire('dropbox-stream', {
@@ -149,7 +148,7 @@ test('dropbox: createReadStream: no path', (t) => {
 });
 
 test('dropbox: createReadStream: createDropboxDownloadStream', (t) => {
-    const createDropboxDownloadStream = sinon.stub();
+    const createDropboxDownloadStream = stub();
     
     mockRequire('dropbox-stream', {
         createDropboxDownloadStream
@@ -173,8 +172,7 @@ test('dropbox: createReadStream: createDropboxDownloadStream', (t) => {
 
 test('dropbox: createReadStream: result', async (t) => {
     const str = 'hello';
-    const createDropboxDownloadStream = sinon
-        .stub()
+    const createDropboxDownloadStream = stub()
         .returns(stringToStream(str));
     
     mockRequire('dropbox-stream', {
@@ -209,8 +207,7 @@ test('dropbox: writeFile: no path', async (t) => {
 test('dropbox: writeFile: wrong path', async (t) => {
     const error = 'Error in call to API function "files/upload"';
     
-    const filesUpload = sinon
-        .stub()
+    const filesUpload = stub()
         .returns(Promise.reject({
             error
         }));
@@ -238,8 +235,7 @@ test('dropbox: writeFile: no contents', async (t) => {
         return resolve('hello');
     });
     
-    const filesUpload = sinon
-        .stub()
+    const filesUpload = stub()
         .returns(promise);
     
     const Dropbox = function() {
@@ -272,8 +268,7 @@ test('dropbox: writeFile', async (t) => {
         return resolve('hello');
     });
     
-    const filesUpload = sinon
-        .stub()
+    const filesUpload = stub()
         .returns(promise);
     
     const Dropbox = function() {
@@ -302,12 +297,8 @@ test('dropbox: writeFile', async (t) => {
 });
 
 test('dropbox: readFile', async (t) => {
-    const promise = new Promise((resolve) => {
-        return resolve('hello');
-    });
-    
-    const filesGetTemporaryLink = sinon
-        .stub()
+    const promise = async () => 'hello';
+    const filesGetTemporaryLink = stub()
         .returns(promise);
     
     const Dropbox = function() {
@@ -330,27 +321,26 @@ test('dropbox: readFile', async (t) => {
 
 test('dropbox: readFile: error', async (t) => {
     const error = Error('Error in call to API function "files/get_temporary_link": request body: path: The root');
-    const promise = new Promise((resolve, reject) => {
-        return reject(error);
-    });
-    
-    const filesGetTemporaryLink = sinon
-        .stub()
-        .returns(promise);
+    const filesGetTemporaryLink = async () => {
+        throw error;
+    };
     
     const Dropbox = function() {
         this.filesGetTemporaryLink = filesGetTemporaryLink;
     };
     
-    mockRequire('fetch', getFetch());
+    mockRequire('node-fetch', getFetch());
     mockRequire('dropbox', {
-        Dropbox
+        Dropbox,
     });
     
     const path = '/abc';
     const {readFile} = reRequire('..');
     
     const [e] = await tryToCatch(readFile, 'token', path);
+    
+    mockRequire.stop('node-fetch');
+    mockRequire.stop('dropbox');
     
     t.equal(e, error, 'should equal');
     t.end();
@@ -359,12 +349,8 @@ test('dropbox: readFile: error', async (t) => {
 test('dropbox: copy', async (t) => {
     const from = 'a';
     const to = 'b';
-    const promise = new Promise((resolve) => {
-        return resolve('hello');
-    });
-    
-    const filesCopyV2 = sinon
-        .stub()
+    const promise = async () => 'hello';
+    const filesCopyV2 = stub()
         .returns(promise);
     
     const Dropbox = function() {
@@ -388,12 +374,8 @@ test('dropbox: copy', async (t) => {
 });
 
 test('dropbox: mkdir', async (t) => {
-    const promise = new Promise((resolve) => {
-        return resolve('hello');
-    });
-    
-    const filesCreateFolderV2 = sinon
-        .stub()
+    const promise = async () => 'hello';
+    const filesCreateFolderV2 = stub()
         .returns(promise);
     
     const Dropbox = function() {
@@ -417,17 +399,13 @@ test('dropbox: mkdir', async (t) => {
 });
 
 test('dropbox: mkdir: error: conflict folder', async (t) => {
-    const promise = new Promise((resolve, reject) => {
-        return reject({
+    const filesCreateFolderV2 = stub(() => {
+        throw {
             error: {
                 error_summary: 'path/conflict/folder/...',
             }
-        });
+        };
     });
-    
-    const filesCreateFolderV2 = sinon
-        .stub()
-        .returns(promise);
     
     const Dropbox = function() {
         this.filesCreateFolderV2 = filesCreateFolderV2;
@@ -466,12 +444,9 @@ test('dropbox: copy: no to: error', async (t) => {
 test('dropbox: move', async (t) => {
     const from = 'a';
     const to = 'b';
-    const promise = new Promise((resolve) => {
-        return resolve('hello');
-    });
+    const promise = () => 'hello';
     
-    const filesMoveV2 = sinon
-        .stub()
+    const filesMoveV2 = stub()
         .returns(promise);
     
     const Dropbox = function() {
@@ -498,13 +473,10 @@ test('dropbox: move: error', async (t) => {
     const from = 'a';
     const to = 'b';
     const error = Error('path_loockup/not_found/..');
-    const promise = new Promise((resolve, reject) => {
-        return reject(error);
-    });
     
-    const filesMoveV2 = sinon
-        .stub()
-        .returns(promise);
+    const filesMoveV2 = () => {
+        throw error;
+    };
     
     const Dropbox = function() {
         this.filesMoveV2 = filesMoveV2;
@@ -533,8 +505,7 @@ test('dropbox: remove: error', async (t) => {
         });
     });
     
-    const filesDeleteV2 = sinon
-        .stub()
+    const filesDeleteV2 = stub()
         .returns(promise);
     
     const Dropbox = function() {
