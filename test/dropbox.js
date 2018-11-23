@@ -1,11 +1,9 @@
 'use strict';
 
-const {promisify} = require('util');
-
 const test = require('tape');
 const dropbox = require('..');
 const stringToStream = require('string-to-stream');
-const pullout = promisify(require('pullout'));
+const pullout = require('pullout');
 const stub = require('@cloudcmd/stub');
 const tryToCatch = require('try-to-catch');
 const mockRequire = require('mock-require');
@@ -129,7 +127,7 @@ test('dropbox: createWriteStream: result', async (t) => {
     
     const stream = createWriteStream(token, filepath);
     
-    const data = await pullout(stream, 'string')
+    const data = await pullout(stream)
     
     t.equal(data, str, 'should equal');
     t.end();
