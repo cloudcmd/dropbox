@@ -27,7 +27,7 @@
     "node-fetch": "^2.2.0",
     "squad": "^3.0.0",
     "string-to-stream": "^1.1.0",
-    "try-to-catch": "^1.0.0"
+    "try-to-catch": "^2.0.0"
   },
   "devDependencies": {
     "@cloudcmd/stub": "^2.0.0",
