@@ -16,10 +16,8 @@
     "watch:coverage": "madrun watch:coverage",
     "watch:test": "madrun watch:test",
     "watcher": "madrun watcher",
-    "lint": "madrun lint",
     "fix:lint": "madrun fix:lint",
-    "lint:eslint:lib": "madrun lint:eslint:lib",
-    "lint:eslint:test": "madrun lint:eslint:test"
+    "lint": "madrun lint"
   },
   "dependencies": {
     "dropbox": "^4.0.0",
@@ -43,8 +41,7 @@
     "pullout": "^4.0.0",
     "putout": "^6.15.1",
     "redrun": "^7.0.2",
-    "supertape": "^1.2.3",
-    "tape": "^4.6.3"
+    "supertape": "^1.2.3"
   },
   "keywords": [
     "dropbox",

@@ -1,6 +1,6 @@
 'use strict';
 
-const test = require('tape');
+const test = require('supertape');
 const dropbox = require('..');
 const stringToStream = require('string-to-stream');
 const pullout = require('pullout');
@@ -64,7 +64,7 @@ test('dropbox: read: dropboxify: call: options', async (t) => {
     const args = [
         'token',
         '/', {
-            raw: true
+            raw: true,
         },
     ];
     
@@ -88,7 +88,7 @@ test('dropbox: createWriteStream: createDropboxUploadStream', (t) => {
     const createDropboxUploadStream = stub();
     
     mockRequire('dropbox-stream', {
-        createDropboxUploadStream
+        createDropboxUploadStream,
     });
     
     const token = 'token';
@@ -118,7 +118,7 @@ test('dropbox: createWriteStream: result', async (t) => {
         .returns(stringToStream(str));
     
     mockRequire('dropbox-stream', {
-        createDropboxUploadStream
+        createDropboxUploadStream,
     });
     
     const token = 'token';
@@ -127,7 +127,7 @@ test('dropbox: createWriteStream: result', async (t) => {
     
     const stream = createWriteStream(token, filepath);
     
-    const data = await pullout(stream)
+    const data = await pullout(stream);
     
     t.equal(data, str, 'should equal');
     t.end();
@@ -149,7 +149,7 @@ test('dropbox: createReadStream: createDropboxDownloadStream', (t) => {
     const createDropboxDownloadStream = stub();
     
     mockRequire('dropbox-stream', {
-        createDropboxDownloadStream
+        createDropboxDownloadStream,
     });
     
     const token = 'token';
@@ -174,7 +174,7 @@ test('dropbox: createReadStream: result', async (t) => {
         .returns(stringToStream(str));
     
     mockRequire('dropbox-stream', {
-        createDropboxDownloadStream
+        createDropboxDownloadStream,
     });
     
     const token = 'token';
@@ -207,7 +207,7 @@ test('dropbox: writeFile: wrong path', async (t) => {
     
     const filesUpload = stub()
         .returns(Promise.reject({
-            error
+            error,
         }));
     
     const Dropbox = function() {
@@ -215,7 +215,7 @@ test('dropbox: writeFile: wrong path', async (t) => {
     };
     
     mockRequire('dropbox', {
-        Dropbox
+        Dropbox,
     });
     
     const path = 'abc';
@@ -241,7 +241,7 @@ test('dropbox: writeFile: no contents', async (t) => {
     };
     
     mockRequire('dropbox', {
-        Dropbox
+        Dropbox,
     });
     
     const path = '/abc';
@@ -252,7 +252,7 @@ test('dropbox: writeFile: no contents', async (t) => {
         contents: '',
         mode: {
             '.tag': 'overwrite',
-        }
+        },
     };
     
     await writeFile('token', path);
@@ -274,7 +274,7 @@ test('dropbox: writeFile', async (t) => {
     };
     
     mockRequire('dropbox', {
-        Dropbox
+        Dropbox,
     });
     
     const path = '/abc';
@@ -285,7 +285,7 @@ test('dropbox: writeFile', async (t) => {
         contents,
         mode: {
             '.tag': 'overwrite',
-        }
+        },
     };
     
     await writeFile('token', path, contents);
@@ -305,13 +305,13 @@ test('dropbox: readFile', async (t) => {
     
     mockRequire('node-fetch', getFetch());
     mockRequire('dropbox', {
-        Dropbox
+        Dropbox,
     });
     
     const path = '/abc';
     const {readFile} = reRequire('..');
     
-    await readFile('token', path)
+    await readFile('token', path);
     
     t.ok(filesGetTemporaryLink.calledWith({path}), 'should call filesGetTemporaryLink');
     t.end();
@@ -356,7 +356,7 @@ test('dropbox: copy', async (t) => {
     };
     
     mockRequire('dropbox', {
-        Dropbox
+        Dropbox,
     });
     
     const {copy} = reRequire('..');
@@ -381,13 +381,13 @@ test('dropbox: mkdir', async (t) => {
     };
     
     mockRequire('dropbox', {
-        Dropbox
+        Dropbox,
     });
     
     const path = '/hello';
     const {mkdir} = reRequire('..');
     const args = {
-        path
+        path,
     };
     
     await mkdir('token', path);
@@ -401,7 +401,7 @@ test('dropbox: mkdir: error: conflict folder', async (t) => {
         throw {
             error: {
                 error_summary: 'path/conflict/folder/...',
-            }
+            },
         };
     });
     
@@ -410,13 +410,13 @@ test('dropbox: mkdir: error: conflict folder', async (t) => {
     };
     
     mockRequire('dropbox', {
-        Dropbox
+        Dropbox,
     });
     
     const path = '/hello';
     const {mkdir} = reRequire('..');
     const args = {
-        path
+        path,
     };
     
     await mkdir('token', path);
@@ -452,7 +452,7 @@ test('dropbox: move', async (t) => {
     };
     
     mockRequire('dropbox', {
-        Dropbox
+        Dropbox,
     });
     
     const {move} = reRequire('..');
@@ -481,7 +481,7 @@ test('dropbox: move: error', async (t) => {
     };
     
     mockRequire('dropbox', {
-        Dropbox
+        Dropbox,
     });
     
     const {move} = reRequire('..');
@@ -498,8 +498,8 @@ test('dropbox: remove: error', async (t) => {
     const promise = new Promise((resolve, reject) => {
         return reject({
             error: {
-                error_summary
-            }
+                error_summary,
+            },
         });
     });
     
@@ -511,7 +511,7 @@ test('dropbox: remove: error', async (t) => {
     };
     
     mockRequire('dropbox', {
-        Dropbox
+        Dropbox,
     });
     
     const {remove} = reRequire('..');
@@ -527,7 +527,7 @@ function getFetch() {
     const body = {};
     const fetch = async () => {
         return {
-            body
+            body,
         };
     };
     
