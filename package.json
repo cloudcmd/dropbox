@@ -1,6 +1,6 @@
 {
   "name": "@cloudcmd/dropbox",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "main": "lib/dropbox.js",
   "description": "dropbox files and folders crud",
   "author": "",
