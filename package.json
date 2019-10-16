@@ -10,15 +10,16 @@
     "url": "git://github.com/cloudcmd/dropbox.git"
   },
   "scripts": {
-    "test": "tape 'test/*.js'",
-    "report": "nyc report --reporter=text-lcov | coveralls",
-    "coverage": "nyc npm test",
-    "watch:coverage": "npm run watcher -- npm run coverage",
-    "watch:test": "npm run watcher -- npm test",
-    "watcher": "nodemon -w test -w lib --exec",
-    "lint": "redrun lint:*",
-    "lint:eslint:lib": "eslint lib",
-    "lint:eslint:test": "eslint -c .eslintrc.test test --no-eslintrc"
+    "test": "madrun test",
+    "report": "madrun report",
+    "coverage": "madrun coverage",
+    "watch:coverage": "madrun watch:coverage",
+    "watch:test": "madrun watch:test",
+    "watcher": "madrun watcher",
+    "lint": "madrun lint",
+    "fix:lint": "madrun fix:lint",
+    "lint:eslint:lib": "madrun lint:eslint:lib",
+    "lint:eslint:test": "madrun lint:eslint:test"
   },
   "dependencies": {
     "dropbox": "^4.0.0",
@@ -34,11 +35,15 @@
     "coveralls": "^3.0.0",
     "eslint": "^6.5.1",
     "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-putout": "^2.0.1",
+    "madrun": "^3.0.6",
     "mock-require": "^3.0.1",
     "nodemon": "^1.14.11",
-    "nyc": "^13.0.1",
+    "nyc": "^14.1.1",
     "pullout": "^4.0.0",
+    "putout": "^6.15.1",
     "redrun": "^7.0.2",
+    "supertape": "^1.2.3",
     "tape": "^4.6.3"
   },
   "keywords": [
