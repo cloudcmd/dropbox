@@ -108,7 +108,7 @@ const token = 'token';
 const path = '/file';
 
 const dropboxStream = createWriteStream(token, path);
-const localStream = fs.createReadStream(path);
+const localStream = createReadStream(path);
 
 localStream
     .pipe(dropboxStream)
@@ -130,7 +130,7 @@ const {createReadStream}  = require('@cloudcmd/dropbox');
 const token = 'token';
 const path = '/file';
 
-const dropboxStream = fs.createReadStream(path);
+const dropboxStream = createReadStream(path);
 const localStream = createWriteStream(token, path);
 
 dropboxStream
