@@ -20,7 +20,7 @@
     "lint": "madrun lint"
   },
   "dependencies": {
-    "dropbox": "^4.0.0",
+    "dropbox": "^5.2.0",
     "dropbox-stream": "^3.0.0",
     "dropboxify": "^2.0.0",
     "node-fetch": "^2.2.0",
