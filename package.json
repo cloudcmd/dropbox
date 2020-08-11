@@ -9,6 +9,12 @@
     "type": "git",
     "url": "git://github.com/cloudcmd/dropbox.git"
   },
+  "nyc": {
+    "exclude": [
+      "test",
+      ".*.js"
+    ]
+  },
   "scripts": {
     "test": "madrun test",
     "report": "madrun report",
